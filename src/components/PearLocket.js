@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Matter, { World } from "matter-js";
-// import locket from '../resized/New-Project-_4_heart.svg';
-import ImgSvg from '../resized/pear_test.svg';
+import ImgSvg from '../resized/New-Project-_21_.svg';
+// import ImgSvg from '../resized/pear_test.svg';
 import locket from '../resized/pear_locket.png';
 import heartSvg from '../resized/heart.svg';
 
@@ -116,12 +116,12 @@ const PearLocket = () => {
                 .then(function (root) {
                     var paths = select(root, 'path');
                     var vertexSets = paths.map(function (path) { return Svg.pathToVertices(path, 10); });
-                    var terrain = Bodies.fromVertices(200, 280, vertexSets, {
+                    var terrain = Bodies.fromVertices(200, 300, vertexSets, {
                         isStatic: true,
                         render: {
                             fillStyle: 'transparent',
-                            // strokeStyle: '#060a19',
-                            // lineWidth: 1
+                            strokeStyle: '#060a19',
+                            lineWidth: 1
                         }
                     }, true);
 

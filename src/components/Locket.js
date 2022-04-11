@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Matter, { World } from "matter-js";
 // import locket from '../resized/New-Project-_4_heart.svg';
-import ImgSvg from '../resized/New-Project-_17_.svg';
+import ImgSvg from '../resized/New-Project-_29_ (3).svg';
 import locket from '../resized/rectanle.png';
 import heartSvg from '../resized/heart.svg';
 
@@ -177,7 +177,7 @@ const Locket = () => {
     });
     return (
         <>
-        <div id="test"></div>
+        <div id="test">Hello</div>
         </>
     )
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Matter, { World } from "matter-js";
 // import locket from '../resized/New-Project-_4_heart.svg';
-import ImgSvg from '../resized/New_oval_test.svg';
+import ImgSvg from '../resized/New-Project-_34_.svg';
 import locket from '../resized/oval_locket.png';
 import heartSvg from '../resized/heart.svg';
 
@@ -122,8 +122,8 @@ const OvalLocket = () => {
                         isStatic: true,
                         render: {
                             fillStyle: 'transparent',
-                            // strokeStyle: '#060a19',
-                            // lineWidth: 1
+                            strokeStyle: '#060a19',
+                            lineWidth: 1
                         }
                     }, true);
 
