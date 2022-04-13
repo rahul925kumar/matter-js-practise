@@ -29,7 +29,7 @@ const Chain = () => {
                 // showCollisions: true,
                 // showVelocity: true,
                 wireframes: false,
-                // background: '#fff'
+                background: '#fff'
             }
         });
 
@@ -43,7 +43,6 @@ const Chain = () => {
         var group = Body.nextGroup(true);
 
         var ropeA = Composites.stack(100, 50, 20, 1, 5, 5, function (x, y) {
-            console.log("X:-", x, "Y:-", y)
             return Bodies.rectangle(x, y, 30, 10, {
                 render: {
                     sprite: {
@@ -64,24 +63,12 @@ const Chain = () => {
             bodyB: ropeA.bodies[19],
             pointB: { x: 25, y: 0 },
             pointA: { x: 400, y: -45 },
-            stiffness: 0.5,
+            stiffness: 0.1,
         }));
-        // console.log("Body Length", ropeA.bodies.length)
         console.log("ropeA.bodies[0]", ropeA.bodies[19].position.y)
         group = Body.nextGroup(true);
-
-        var ball = Bodies.circle(100, 400, 50, { density: 0.04, frictionAir: 0.005 });
-        Composite.add(world, [
-            ropeA,
-            ball,
-            Bodies.rectangle(400, 600, 1200, 50.5, { isStatic: true })
-        ]);
-
-        // Composite.add(world, Constraint.create({
-        //     pointA: { x: ropeA.bodies[10].position.x, y: ropeA.bodies[10].position.y },
-        //     bodyB: ball
-        // }));
-
+        var ball = Bodies.circle(100, 400, 50, { frictionAir: 0.005 });
+        Composite.add(world, [ropeA, ball, Bodies.rectangle(400, 600, 1200, 50.5, { isStatic: true })]);
         // add mouse control
         var mouse = Mouse.create(render.canvas),
             mouseConstraint = MouseConstraint.create(engine, {
@@ -93,18 +80,14 @@ const Chain = () => {
                     }
                 }
             });
-
         Composite.add(world, mouseConstraint);
-
         // keep the mouse in sync with rendering
         render.mouse = mouse;
-
         // fit the render viewport to the scene
         Render.lookAt(render, {
             min: { x: 0, y: 0 },
             max: { x: 700, y: 600 }
         });
-
         // context for MatterTools.Demo
         return {
             engine: engine,

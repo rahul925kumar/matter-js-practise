@@ -3,11 +3,10 @@ import Matter, { World } from "matter-js";
 // import locket from '../resized/New-Project-_4_heart.svg';
 import ImgSvg from '../resized/New-Project-_29_ (3).svg';
 import locket from '../resized/rectanle.png';
-import heartSvg from '../resized/heart.svg';
+// import heartSvg from '../resized/heart.svg';
 
 const Locket = () => {
     // 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
-
     useEffect(() => {
         var Engine = Matter.Engine,
             Render = Matter.Render,
@@ -29,7 +28,6 @@ const Locket = () => {
         // 2. setup render
         var render = Render.create({
             element: document.getElementById('test'),
-            id: 'test',
             engine: engine,
             options: {
                 width: 400,
