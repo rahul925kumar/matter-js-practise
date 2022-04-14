@@ -13,6 +13,7 @@ function App() {
       {/* <Matter /> */}
       {/* <CircleLocket /> */}
       <Chain />
+      {/* <Check /> */}
       {/* <HeartLocket /> */}
        {/* <OvalLocket /> */}
       {/* <PearLocket /> */}

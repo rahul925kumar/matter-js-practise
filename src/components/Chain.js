@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Matter, { World } from "matter-js";
 import chainpieces from '../resized/9kt_gold_short_chain_1.png';
+import locket from '../resized/LC2130-Y (1) (2).png';
 const Chain = () => {
     useEffect(() => {
         var Engine = Matter.Engine,
@@ -13,37 +14,24 @@ const Chain = () => {
             MouseConstraint = Matter.MouseConstraint,
             Mouse = Matter.Mouse,
             Bodies = Matter.Bodies;
-
-        // create engine
         var engine = Engine.create(),
             world = engine.world;
-
-        // create renderer
         var render = Render.create({
             element: document.body,
             engine: engine,
             options: {
-                width: 1500,
+                width: 1000,
                 height: 600,
-                // showAngleIndicator: true,
-                // showCollisions: true,
-                // showVelocity: true,
                 wireframes: false,
                 background: '#fff'
             }
         });
-
         Render.run(render);
-
-        // create runner
         var runner = Runner.create();
         Runner.run(runner, engine);
-
-        // add bodies
         var group = Body.nextGroup(true);
-
-        var ropeA = Composites.stack(100, 50, 20, 1, 5, 5, function (x, y) {
-            return Bodies.rectangle(x, y, 30, 10, {
+        var ropeA = Composites.stack(100, 10, 25, 1, -5, 15, function (x, y) {
+            return Bodies.rectangle(x, 5, 30, 20, {
                 render: {
                     sprite: {
                         texture: chainpieces
@@ -51,44 +39,56 @@ const Chain = () => {
                 }
             });
         });
-
         Composites.chain(ropeA, 0.5, 0, -0.5, 0);
         Composite.add(ropeA, Constraint.create({
             bodyB: ropeA.bodies[0],
-            pointB: { x: -25, y: 0 },
+            pointB: { x: -20, y: 0 },
             pointA: { x: ropeA.bodies[0].position.x, y: ropeA.bodies[0].position.y },
             stiffness: 0.1,
+            length: 1,
         }));
         Composite.add(ropeA, Constraint.create({
-            bodyB: ropeA.bodies[19],
-            pointB: { x: 25, y: 0 },
-            pointA: { x: 400, y: -45 },
-            stiffness: 0.1,
+            bodyB: ropeA.bodies[24],
+            pointB: { x: 0, y: -20 },
+            pointA: { x: 400, y: 20 },
+            stiffness: 0.5,
+            length: 1,
         }));
-        console.log("ropeA.bodies[0]", ropeA.bodies[19].position.y)
+        console.log(ropeA.bodies[12].position.x, ropeA.bodies[12].position.y)
+        var pendant = Bodies.rectangle(415, 15, 70, 90, {
+            frictionAir: 0.005, render: {
+                sprite: {
+                    texture: locket
+                }
+            }
+        });
+        
+        Composite.add( ropeA, Constraint.create({            
+            bodyB: pendant,
+            pointB : {x : 0, y:0},
+            pointA: { x: 275, y: 475 },
+            length: 1,
+        }));
+        
+        // console.log("====>>>", ropeA.bodies[12].position.x,  ropeA.bodies[12].position.y)
         group = Body.nextGroup(true);
-        var ball = Bodies.circle(100, 400, 50, { frictionAir: 0.005 });
-        Composite.add(world, [ropeA, ball, Bodies.rectangle(400, 600, 1200, 50.5, { isStatic: true })]);
-        // add mouse control
+        Composite.add(world, [ropeA, pendant, Bodies.rectangle(400, 600, 1200, 50.5, { isStatic: true })]);
         var mouse = Mouse.create(render.canvas),
             mouseConstraint = MouseConstraint.create(engine, {
                 mouse: mouse,
                 constraint: {
                     stiffness: 0.2,
                     render: {
-                        // visible: false
+                        visible: false
                     }
                 }
             });
         Composite.add(world, mouseConstraint);
-        // keep the mouse in sync with rendering
         render.mouse = mouse;
-        // fit the render viewport to the scene
         Render.lookAt(render, {
             min: { x: 0, y: 0 },
             max: { x: 700, y: 600 }
         });
-        // context for MatterTools.Demo
         return {
             engine: engine,
             runner: runner,
@@ -105,7 +105,6 @@ const Chain = () => {
 
         </>
     )
-
 }
 
 export default Chain;

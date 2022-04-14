@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Matter, { World } from "matter-js";
 // import locket from '../resized/New-Project-_4_heart.svg';
-import ImgSvg from '../resized/New-Project-_29_ (3).svg';
+import ImgSvg from '../resized/New-Project-_40_ (1).svg';
 import locket from '../resized/rectanle.png';
 // import heartSvg from '../resized/heart.svg';
 
 const Locket = () => {
     // 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
+    //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
     useEffect(() => {
         var Engine = Matter.Engine,
             Render = Matter.Render,
@@ -99,25 +100,20 @@ const Locket = () => {
             }
         });
         World.add(engine.world, floor);
-        // World.add(engine.world, locketImage);
         if (typeof fetch !== 'undefined') {
             var select = function (root, selector) {
                 return Array.prototype.slice.call(root.querySelectorAll(selector));
             };
-
             var loadSvg = function (url) {
                 return fetch(url)
                     .then(function (response) { return response.text(); })
                     .then(function (raw) { return (new window.DOMParser()).parseFromString(raw, 'image/svg+xml'); });
             };
-
             loadSvg(ImgSvg)
                 .then(function (root) {
                     var paths = select(root, 'path');
                     var vertexSets = paths.map(function (path) { return Svg.pathToVertices(path, 10); });
-                    console.log("TEST===", paths);
-
-                    var terrain = Bodies.fromVertices(200, 310, vertexSets, {
+                    var terrain = Bodies.fromVertices(170, 265, vertexSets, {
                         isStatic: true,
                         render: {
                             fillStyle: 'transparent',
@@ -125,22 +121,7 @@ const Locket = () => {
                             lineWidth: 1
                         }
                     }, true);
-
                     Composite.add(engine.world, terrain);
-
-                    var bodyOptions = {
-                        frictionAir: 0,
-                        friction: 0.0001,
-                        restitution: 0.6
-                    };
-                    var count = 0;
-                    // addCharms()
-                    // Composite.add(engine.world, Composites.stack(200, 300, 100, 100, 0, 0, function (x, y) {
-                    //     if (Query.point([terrain], { x: x, y: y }).length === 0) {
-                    //         return Bodies.polygon(x, y, 5, 5);
-                    //     }
-                    // }));
-
                 });
         } else {
             Common.warn('Fetch is not available. Could not load SVG.');
@@ -157,8 +138,6 @@ const Locket = () => {
             });
             World.add(engine.world, box);
         }
-
-        // add mouse control
         var mouse = Mouse.create(render.canvas),
             mouseConstraint = MouseConstraint.create(engine, {
                 mouse: mouse,
@@ -170,7 +149,6 @@ const Locket = () => {
                 }
             });
         Composite.add(engine.world, mouseConstraint);
-        // keep the mouse in sync with rendering
         render.mouse = mouse;
     });
     return (
