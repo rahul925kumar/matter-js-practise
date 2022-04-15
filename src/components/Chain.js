@@ -40,6 +40,7 @@ const Chain = () => {
             });
         });
         Composites.chain(ropeA, 0.5, 0, -0.5, 0);
+
         Composite.add(ropeA, Constraint.create({
             bodyB: ropeA.bodies[0],
             pointB: { x: -20, y: 0 },
@@ -63,13 +64,13 @@ const Chain = () => {
             }
         });
         // console.log("TEST===", ropeA)
-        // Composite.add( ropeA, Constraint.create({            
-        //     bodyB: pendant,
-        //     pointB : {x : 0, y:0},
-        //     pointA: { x: 275, y: 475 },
-        //     length: 1,
-        // }));
-        
+        Composite.add( ropeA, Constraint.create({ 
+            // bodyA : ropeA.bodies[12],           
+            bodyB: pendant,
+            pointB : {x : 0, y:0},
+            pointA: { x: 275, y: 475 },
+            length: 1,
+        }));
         group = Body.nextGroup(true);
         Composite.add(world, [ropeA, pendant, Bodies.rectangle(400, 600, 1200, 50.5, { isStatic: true })]);
         var mouse = Mouse.create(render.canvas),

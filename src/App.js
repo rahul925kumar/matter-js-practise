@@ -13,8 +13,8 @@ function App() {
     <div className="App">
       {/* <Matter /> */}
       {/* <CircleLocket /> */}
-      {/* <Chain /> */}
-      <Demo />
+      <Chain />
+      {/* <Demo /> */}
       {/* <Check /> */}
       {/* <HeartLocket /> */}
        {/* <OvalLocket /> */}

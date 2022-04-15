@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Matter, { World } from "matter-js";
-// import locket from '../resized/New-Project-_4_heart.svg';
 import ImgSvg from '../resized/New-Project-_40_ (1).svg';
 import locket from '../resized/rectanle.png';
-// import heartSvg from '../resized/heart.svg';
 
 const Locket = () => {
     // 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
     //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
+    // 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
+    // ssh-keygen -t ed25519 -C "rahulpassi925@gmail.com"
     useEffect(() => {
         var Engine = Matter.Engine,
             Render = Matter.Render,
@@ -153,7 +153,7 @@ const Locket = () => {
     });
     return (
         <>
-        <div id="test">Hello</div>
+            <div id="test">Hello</div>
         </>
     )
 }

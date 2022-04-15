@@ -7,11 +7,12 @@ const Demo = () => {
         var Engine = Matter.Engine,
             Render = Matter.Render,
             Runner = Matter.Runner,
-            Body = Matter.Body,
+            Composites = Matter.Composites,
+            Common = Matter.Common,
             Constraint = Matter.Constraint,
-            Composite = Matter.Composite,
             MouseConstraint = Matter.MouseConstraint,
             Mouse = Matter.Mouse,
+            Composite = Matter.Composite,
             Bodies = Matter.Bodies;
 
         // create engine
@@ -25,60 +26,148 @@ const Demo = () => {
             options: {
                 width: 800,
                 height: 600,
-                // showAxes: true,
-                // showConvexHulls: true
+                // showAngleIndicator: true
             }
         });
-
         Render.run(render);
-
         // create runner
         var runner = Runner.create();
         Runner.run(runner, engine);
-
-        // add bodies
-        var size = 200,
-            x = 200,
-            y = 200,
-            partA = Bodies.rectangle(x, y, size, size / 5),
-            partB = Bodies.rectangle(x, y, size / 5, size, { render: partA.render });
-        size = 150;
-        x = 400;
-        y = 300;
-        var compoundBodyB = Bodies.rectangle(x, y, 150, 150, {
-            frictionAir: 0.005, render: {
-                sprite: {
-                    texture: `https://cdn.loquetlondon.com/media/catalog/product/cache/60eb685ba7fa125cc536e55016cf562a/1/_/1_yellow_gold_jupiter_locket_sprite_vo2.png`
+        // add stiff global constraint
+        var ropeA = Composites.stack(100, 10, 25, 1, -5, 15, function (x, y) {
+            return Bodies.rectangle(x, 5, 30, 20, {
+                render: {
+                    sprite: {
+                        texture: chainpieces
+                    }
                 }
+            });
+        });
+        Composites.chain(ropeA, 0.5, 0, -0.5, 0);
+        var body = Bodies.polygon(150, 200, 5, 15, {
+            render: {
+                fillStyle: 'red',
+                texture : locket
             }
         });
-        var pendant = Bodies.rectangle(415, 15, 70, 90, {
-            frictionAir: 0.005
-        });
         var constraint = Constraint.create({
-            pointA: { x: 400, y: 100 },
-            bodyB: compoundBodyB,
-            pointB: { x: 0, y: 0 }
+            pointA: { x: ropeA.bodies[12].position.x, y: ropeA.bodies[12].position.y },
+            bodyB: body,
+            pointB: { x: -10, y: -10 },
+            length : 40
         });
+
+        Composite.add(world, [body, ropeA, constraint]);
+        // add soft global constraint
+       /*  var body = Bodies.polygon(280, 100, 3, 30);
+        var constraint = Constraint.create({
+            pointA: { x: 280, y: 120 },
+            bodyB: body,
+            pointB: { x: -10, y: -7 },
+            stiffness: 0.001
+        });
+        Composite.add(world, [body, constraint]);
+
+        // add damped soft global constraint
+        var body = Bodies.polygon(400, 100, 4, 30);
+
+        var constraint = Constraint.create({
+            pointA: { x: 400, y: 120 },
+            bodyB: body,
+            pointB: { x: -10, y: -10 },
+            stiffness: 0.001,
+            damping: 0.05
+        });
+
+        Composite.add(world, [body, constraint]);
+
+        // add revolute constraint
+        var body = Bodies.rectangle(600, 200, 200, 20);
+        var ball = Bodies.circle(550, 150, 20);
+
+        var constraint = Constraint.create({
+            pointA: { x: 600, y: 200 },
+            bodyB: body,
+            length: 0
+        });
+
+        Composite.add(world, [body, ball, constraint]);
+
+        // add revolute multi-body constraint
+        var body = Bodies.rectangle(500, 400, 100, 20, { collisionFilter: { group: -1 } });
+        var ball = Bodies.circle(600, 400, 20, { collisionFilter: { group: -1 } });
+
+        var constraint = Constraint.create({
+            bodyA: body,
+            bodyB: ball
+        });
+
+        Composite.add(world, [body, ball, constraint]);
+
+        // add stiff multi-body constraint
+        var bodyA = Bodies.polygon(100, 400, 6, 20);
+        var bodyB = Bodies.polygon(200, 400, 1, 50);
+
+        var constraint = Constraint.create({
+            bodyA: bodyA,
+            pointA: { x: -10, y: -10 },
+            bodyB: bodyB,
+            pointB: { x: -10, y: -10 }
+        });
+
+        Composite.add(world, [bodyA, bodyB, constraint]);
+
+        // add soft global constraint
+        var bodyA = Bodies.polygon(300, 400, 4, 20);
+        var bodyB = Bodies.polygon(400, 400, 3, 30);
+
+        var constraint = Constraint.create({
+            bodyA: bodyA,
+            pointA: { x: -10, y: -10 },
+            bodyB: bodyB,
+            pointB: { x: -10, y: -7 },
+            stiffness: 0.001
+        });
+
+        Composite.add(world, [bodyA, bodyB, constraint]);
+
+        // add damped soft global constraint
+        var bodyA = Bodies.polygon(500, 400, 6, 30);
+        var bodyB = Bodies.polygon(600, 400, 7, 60);
+
+        var constraint = Constraint.create({
+            bodyA: bodyA,
+            pointA: { x: -10, y: -10 },
+            bodyB: bodyB,
+            pointB: { x: -10, y: -10 },
+            stiffness: 0.001,
+            damping: 0.1
+        });
+
+        Composite.add(world, [bodyA, bodyB, constraint]); */
+
         Composite.add(world, [
-            // compoundBodyA,
-            compoundBodyB,
-            constraint,
-            Bodies.rectangle(400, 600, 800, 50.5, { isStatic: true })
+            // walls
+            Bodies.rectangle(400, 0, 800, 50, { isStatic: true }),
+            Bodies.rectangle(400, 600, 800, 50, { isStatic: true }),
+            Bodies.rectangle(800, 300, 50, 600, { isStatic: true }),
+            Bodies.rectangle(0, 300, 50, 600, { isStatic: true })
         ]);
+
         // add mouse control
         var mouse = Mouse.create(render.canvas),
             mouseConstraint = MouseConstraint.create(engine, {
                 mouse: mouse,
                 constraint: {
-                    stiffness: 0.2,
+                    // allow bodies on mouse to rotate
+                    angularStiffness: 0,
                     render: {
                         visible: false
                     }
                 }
             });
 
-        Composite.add(world, pendant, mouseConstraint);
+        Composite.add(world, mouseConstraint);
 
         // keep the mouse in sync with rendering
         render.mouse = mouse;
