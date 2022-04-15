@@ -6,13 +6,15 @@ import CircleLocket from './components/CircleLocket';
 import HeartLocket from './components/HeartLocket';
 import OvalLocket from './components/OvalLocket';
 import PearLocket from './components/PearLocket';
+import Demo from './components/Demo';
 import Chain from './components/Chain';
 function App() {
   return (
     <div className="App">
       {/* <Matter /> */}
       {/* <CircleLocket /> */}
-      <Chain />
+      {/* <Chain /> */}
+      <Demo />
       {/* <Check /> */}
       {/* <HeartLocket /> */}
        {/* <OvalLocket /> */}

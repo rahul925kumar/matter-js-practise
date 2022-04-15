@@ -62,15 +62,14 @@ const Chain = () => {
                 }
             }
         });
+        // console.log("TEST===", ropeA)
+        // Composite.add( ropeA, Constraint.create({            
+        //     bodyB: pendant,
+        //     pointB : {x : 0, y:0},
+        //     pointA: { x: 275, y: 475 },
+        //     length: 1,
+        // }));
         
-        Composite.add( ropeA, Constraint.create({            
-            bodyB: pendant,
-            pointB : {x : 0, y:0},
-            pointA: { x: 275, y: 475 },
-            length: 1,
-        }));
-        
-        // console.log("====>>>", ropeA.bodies[12].position.x,  ropeA.bodies[12].position.y)
         group = Body.nextGroup(true);
         Composite.add(world, [ropeA, pendant, Bodies.rectangle(400, 600, 1200, 50.5, { isStatic: true })]);
         var mouse = Mouse.create(render.canvas),
