@@ -18,7 +18,6 @@ const Demo = () => {
         // create engine
         var engine = Engine.create(),
             world = engine.world;
-
         // create renderer
         var render = Render.create({
             element: document.body,
@@ -26,7 +25,7 @@ const Demo = () => {
             options: {
                 width: 800,
                 height: 600,
-                // showAngleIndicator: true
+                showAngleIndicator: true
             }
         });
         Render.run(render);
@@ -34,39 +33,23 @@ const Demo = () => {
         var runner = Runner.create();
         Runner.run(runner, engine);
         // add stiff global constraint
-        var ropeA = Composites.stack(100, 10, 25, 1, -5, 15, function (x, y) {
-            return Bodies.rectangle(x, 5, 30, 20, {
-                render: {
-                    sprite: {
-                        texture: chainpieces
-                    }
-                }
-            });
-        });
-        Composites.chain(ropeA, 0.5, 0, -0.5, 0);
-        var body = Bodies.polygon(150, 200, 5, 15, {
-            render: {
-                fillStyle: 'red',
-                texture : locket
-            }
-        });
+        var body = Bodies.polygon(150, 200, 5, 30);
         var constraint = Constraint.create({
-            pointA: { x: ropeA.bodies[12].position.x, y: ropeA.bodies[12].position.y },
+            pointA: { x: 150, y: 100 },
             bodyB: body,
-            pointB: { x: -10, y: -10 },
-            length : 40
+            pointB: { x: -10, y: -10 }
         });
-
-        Composite.add(world, [body, ropeA, constraint]);
+        // Composite.add(world, [body, constraint]);
         // add soft global constraint
-       /*  var body = Bodies.polygon(280, 100, 3, 30);
+        var body = Bodies.polygon(280, 100, 3, 30);
         var constraint = Constraint.create({
             pointA: { x: 280, y: 120 },
             bodyB: body,
             pointB: { x: -10, y: -7 },
             stiffness: 0.001
         });
-        Composite.add(world, [body, constraint]);
+
+        // Composite.add(world, [body, constraint]);
 
         // add damped soft global constraint
         var body = Bodies.polygon(400, 100, 4, 30);
@@ -91,7 +74,7 @@ const Demo = () => {
             length: 0
         });
 
-        Composite.add(world, [body, ball, constraint]);
+        // Composite.add(world, [body, ball, constraint]);
 
         // add revolute multi-body constraint
         var body = Bodies.rectangle(500, 400, 100, 20, { collisionFilter: { group: -1 } });
@@ -115,7 +98,7 @@ const Demo = () => {
             pointB: { x: -10, y: -10 }
         });
 
-        Composite.add(world, [bodyA, bodyB, constraint]);
+        // Composite.add(world, [bodyA, bodyB, constraint]);
 
         // add soft global constraint
         var bodyA = Bodies.polygon(300, 400, 4, 20);
@@ -129,25 +112,28 @@ const Demo = () => {
             stiffness: 0.001
         });
 
-        Composite.add(world, [bodyA, bodyB, constraint]);
+        // Composite.add(world, [bodyA, bodyB, constraint]);
 
         // add damped soft global constraint
-        var bodyA = Bodies.polygon(500, 400, 6, 30);
-        var bodyB = Bodies.polygon(600, 400, 7, 60);
-
+        var bodyA = Bodies.polygon(500, 400, 36, 30, {
+            render: {
+                sprite: {
+                    texture: locket
+                }
+            }
+        });
+        var bodyB = Bodies.polygon(600, 400, 70, 60);
         var constraint = Constraint.create({
             bodyA: bodyA,
             pointA: { x: -10, y: -10 },
             bodyB: bodyB,
             pointB: { x: -10, y: -10 },
-            stiffness: 0.001,
-            damping: 0.1
+            stiffness: 0.5,
+            damping: 0.5
         });
-
-        Composite.add(world, [bodyA, bodyB, constraint]); */
-
+        // Composite.add(world, [bodyA, bodyB, constraint]);
         Composite.add(world, [
-            // walls
+            // walls    
             Bodies.rectangle(400, 0, 800, 50, { isStatic: true }),
             Bodies.rectangle(400, 600, 800, 50, { isStatic: true }),
             Bodies.rectangle(800, 300, 50, 600, { isStatic: true }),
@@ -159,25 +145,20 @@ const Demo = () => {
             mouseConstraint = MouseConstraint.create(engine, {
                 mouse: mouse,
                 constraint: {
-                    // allow bodies on mouse to rotate
                     angularStiffness: 0,
                     render: {
                         visible: false
                     }
                 }
             });
-
         Composite.add(world, mouseConstraint);
-
         // keep the mouse in sync with rendering
         render.mouse = mouse;
-
         // fit the render viewport to the scene
         Render.lookAt(render, {
             min: { x: 0, y: 0 },
             max: { x: 800, y: 600 }
         });
-
         // context for MatterTools.Demo
         return {
             engine: engine,
@@ -189,10 +170,10 @@ const Demo = () => {
                 Matter.Runner.stop(runner);
             }
         };
-    });
+    })
     return (
         <>
-
+        
         </>
     )
 }

@@ -14,7 +14,7 @@ function App() {
       {/* <Matter /> */}
       {/* <CircleLocket /> */}
       <Chain />
-      {/* <Demo /> */}
+      <Demo />
       {/* <Check /> */}
       {/* <HeartLocket /> */}
        {/* <OvalLocket /> */}
