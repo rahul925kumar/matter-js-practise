@@ -17,7 +17,7 @@ const Locket = () => {
             Common = Matter.Common,
             MouseConstraint = Matter.MouseConstraint,
             Mouse = Matter.Mouse,
-            Composite = Matter.Composite,
+            Composite = Matter.Composite,   
             Query = Matter.Query,
             Svg = Matter.Svg,
             Bodies = Matter.Bodies;
@@ -101,7 +101,7 @@ const Locket = () => {
             }
         });
         World.add(engine.world, floor);
-        if (typeof fetch !== 'undefined') {
+        /* if (typeof fetch !== 'undefined') {
             var select = function (root, selector) {
                 return Array.prototype.slice.call(root.querySelectorAll(selector));
             };
@@ -126,7 +126,7 @@ const Locket = () => {
                 });
         } else {
             Common.warn('Fetch is not available. Could not load SVG.');
-        }
+        } */
         var addCharms = function () {
             var box = Bodies.rectangle(mouse.position.x, mouse.position.y, 20, 20, {
                 restitution: 0.5,

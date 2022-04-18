@@ -40,7 +40,7 @@ const Chain = () => {
         var ropeA = Composites.stack(100, 10, 23, 1, -5, 15, function (x, y) {
             count++;
             if (count == '12') {
-                return Bodies.rectangle(415, 15, 20, 100, {
+                return Bodies.circle(415, 15, 60, {
                     frictionAir: 0.005, render: {
                         sprite: {
                             texture: locket
@@ -111,7 +111,7 @@ const Chain = () => {
                 }
             });
 
-        if (typeof fetch !== 'undefined') {
+       /*  if (typeof fetch !== 'undefined') {
             var select = function (root, selector) {
                 return Array.prototype.slice.call(root.querySelectorAll(selector));
             };
@@ -137,7 +137,7 @@ const Chain = () => {
                 });
         } else {
             Common.warn('Fetch is not available. Could not load SVG.');
-        }
+        } */
 
         Composite.add(world, mouseConstraint);
         render.mouse = mouse;
