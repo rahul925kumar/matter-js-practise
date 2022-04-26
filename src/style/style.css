@@ -11,6 +11,7 @@
   }
   
   input[type="text"],
+  input[type="email"],
   input[type="password"] {
     height: 25px;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -61,3 +62,14 @@
     gap: 8px;
     margin: 10px;
   }
+  
+.input-field input{
+  border-radius: 0;
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}
