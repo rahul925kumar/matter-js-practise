@@ -102,6 +102,7 @@ const Demo = () => {
             render: { visible: false },
             stiffness: 0.5
         });
+        
         /*   var constraint1 = Constraint.create({
               bodyA: chainJoint,
               pointA: { x: 0, y: 0 },
@@ -187,7 +188,6 @@ const Demo = () => {
                 }
             });
         }));
-
         group = Body.nextGroup(true);
         Composite.add(world, [ropeA, Bodies.rectangle(400, 600, 1700, 50.5, { isStatic: true })]);
         var mouse = Mouse.create(render.canvas),
@@ -222,5 +222,4 @@ const Demo = () => {
         </>
     )
 }
-
 export default Demo;
