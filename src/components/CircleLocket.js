@@ -114,10 +114,9 @@ const CircleLocket = () => {
 
             loadSvg(ImgSvg)
                 .then(function (root) {
-                    console.log("TEST===", root);
                     var paths = select(root, 'path');
                     var vertexSets = paths.map(function (path) { return Svg.pathToVertices(path, 10); });
-
+                    console.log("TEST===", vertexSets);
                     var terrain = Bodies.fromVertices(200, 310, vertexSets, {
                         isStatic: true,
                         render: {
@@ -126,7 +125,7 @@ const CircleLocket = () => {
                             lineWidth: 1
                         }
                     }, true);
-
+                    
                     Composite.add(engine.world, terrain);
 
                     var bodyOptions = {

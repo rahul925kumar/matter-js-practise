@@ -16,14 +16,13 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        
           <Routes>
             <Route path="test" exact element={<Check />} />
             <Route path="chain" element={<Chain />} />
             <Route path="demo" element={<Demo />} />
             <Route path="signup" element={<SignUp />} />
+            <Route path="circle" element={<CircleLocket />} />
           </Routes>
-        
       </BrowserRouter>
     </div>
   );

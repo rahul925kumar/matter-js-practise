@@ -1,0 +1,216 @@
+<html>
+
+<head>
+    <title>Chain Bouncing</title>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.12.0/matter.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js"></script>
+<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/253981/decomp.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pathseg@1.2.1/pathseg.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/poly-decomp@0.3.0/build/decomp.min.js"></script>
+
+<body>
+    <div id="mjs-wrapper">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link"><img
+            src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+
+        <img src="./LC2130-Y (6) (2).png" class="locket_image">
+    </div>
+    <script>
+        var Engine = Matter.Engine,
+            Render = Matter.Render,
+            World = Matter.World,
+            Bodies = Matter.Bodies;
+        var engine = Engine.create();
+        var render = Render.create({
+            element: document.body,
+            engine: engine,
+            options: {
+                width: 800,
+                height: 800,
+                wireframes: false,
+                background: `transparent`,
+            }
+        });
+
+        const listEls = document.querySelectorAll(".chain_link");
+        const stack = Matter.Composites.stack(
+            0, 0, listEls.length, 1, 0, 0,
+            (xx, yy, i) => {
+                const { x, y, width, height } = listEls[i].getBoundingClientRect();
+                if (i + 1 === listEls.length) {
+                    return Matter.Bodies.rectangle(250, 120, 20, 10, {
+                        isStatic: true
+                    });
+                } else {
+                    return Matter.Bodies.rectangle(x, y, 20, 10, {
+                        isStatic: i === 0
+                    });
+                }
+            }
+        );
+        var group = Matter.Body.nextGroup(true);
+        Matter.Composites.chain(stack, 0.3, 0, -0.3, 0, {
+            collisionFilter: { group: -1, category: 2 },
+            length: 5,
+            render: {
+                visible: false,
+                background: 'red'
+            }
+        });
+        var locket = Matter.Bodies.rectangle(250, 250, 150, 150, {
+            spec: 'locket',
+            // isStatic: true,
+            collisionFilter: { category: 2, group: -1, mask: 0 }
+        });
+        var constraint = Matter.Constraint.create({
+            bodyA: stack.bodies[21],
+            pointA: { x: 0, y: 0 },
+            bodyB: locket,
+            pointB: { x: 0, y: -75 },
+            length: 5,
+        });
+        var stack2 = Matter.Composites.stack(200, 230 - 25.25 - 5 * 40, 2, 2, 0, 0, function (x, y) {
+            return Matter.Bodies.rectangle(400, 400, 20, 20, {
+                spec: 'charms',
+                render: {
+                    sprite: {
+                        texture: `https://cdn.loquetlondon.com/media/catalog/product/cache/60eb685ba7fa125cc536e55016cf562a/e/v/evil_eye_2.png`,
+                        xScale: 0.3,
+                        yScale: 0.3
+
+                    }
+                }
+            });
+        });
+        var mouse = Matter.Mouse.create(render.canvas),
+            mouseConstraint = Matter.MouseConstraint.create(engine, {
+                mouse: mouse,
+                constraint: {
+                    stiffness: 0.2,
+                    render: {
+                        visible: false
+                    }
+                }
+            });
+        var boxA = Bodies.rectangle(400, 200, 80, 80);
+        var ballA = Bodies.circle(380, 100, 40, 10);
+        var ballB = Bodies.circle(460, 10, 40, 10);
+        var ground = Bodies.rectangle(400, 800, 810, 60, { isStatic: true });
+        World.add(engine.world, [mouse, mouseConstraint, stack2, locket, constraint, stack, ground]);
+        Engine.run(engine);
+        // Render.run(render);
+        listEls.forEach(e => {
+            e.style.position = "absolute";
+            e.addEventListener("click", e =>
+                console.log(e.target.textContent)
+            );
+        });
+        let charmsbodies = engine.world.composites[0].bodies;
+        console.log(charmsbodies.length)
+        charmsbodies.forEach((charm, i) => {
+            const { x, y } = charm.vertices[0];
+            const charmStyle = `<div class="charms" color="red" style="position: absolute; top: ${y}px; left: ${x}px; transform: translate(-50%, -50%) rotate(${charm.angle}rad) translate(50%, 50%) scale(${charm.render.sprite.xScale}, ${charm.render.sprite.yScale});  ">
+                <img src="${charm.render.sprite.texture}" height="40px" width="40px">
+                </div>`;
+            $("#mjs-wrapper").append(charmStyle);
+        });
+        let getCharmsDiv = $(".charms");
+        (function update() {
+            requestAnimationFrame(update);
+            stack.bodies.forEach((block, i) => {
+                const li = listEls[i];
+                const { x, y } = block.vertices[0];
+                li.style.top = `${y}px`;
+                li.style.left = `${x}px`;
+                li.style.zIndex = block.id;
+                li.style.transform = `translate(-50%, -50%) 
+                          rotate(${block.angle}rad) 
+                          translate(50%, 50%)`;
+                // li.style.backgroundImage = "url('https://cdn.loquetlondon.com/media/catalog/product/cache/60eb685ba7fa125cc536e55016cf562a/9/k/9kt_gold_short_chain_1_sprite.png')";
+            });
+            let locketJoint = engine.world.bodies;
+            console.log("=====", engine.world)
+            if (locketJoint[0].spec == "locket") {
+                const lo = $(".locket_image")[0];
+                const { x, y } = locketJoint[0].vertices[0];
+                lo.style.position = 'absolute';
+                lo.style.top = `${y}px`;
+                lo.style.left = `${x}px`;
+                lo.style.zIndex = locketJoint[0].id;
+                lo.style.transform = `translate(-50%, -50%) rotate(${locketJoint[0].angle}rad)  translate(50%, 50%)`;
+            }
+            let charmsbodies = engine.world.composites[0].bodies;
+            charmsbodies.forEach((charm, i) => {
+                const li = getCharmsDiv[i];
+                const { x, y } = charm.vertices[0];
+                li.style.top = `${y}px`;
+                li.style.left = `${x}px`;
+                li.style.zIndex = charm.id;
+                li.style.transform = `translate(-50%, -50%) 
+                             
+                            translate(50%, 50%)`;
+            });
+        })();
+
+        if (typeof fetch !== 'undefined') {
+            var select = function (root, selector) {
+                return Array.prototype.slice.call(root.querySelectorAll(selector));
+            };
+            var loadSvg = function (url) {
+                return fetch(url)
+                    .then(function (response) { return response.text(); })
+                    .then(function (raw) { return (new window.DOMParser()).parseFromString(raw, 'image/svg+xml'); });
+            };
+            loadSvg('https://cdn.shopify.com/s/files/1/0510/9488/0442/t/18/assets/New-Project-_12.svg?v=1649332868')
+                .then(function (root) {
+                    var paths = select(root, 'path');
+                    var vertexSets = paths.map(function (path) { return Matter.Svg.pathToVertices(path, 10); });
+                    console.log("vertex code ", vertexSets)
+                    var terrain = Matter.Bodies.fromVertices(400, 400, vertexSets,
+                        {
+                            //  collisionFilter: { category: 2, group : -1, mask : 0  },
+                            render: {
+                                fillStyle: 'transparent',
+                                strokeStyle: '#fff',
+                                lineWidth: 2
+                            }
+                        }, true);
+                    var constraint = Matter.Constraint.create({
+                        bodyA: stack.bodies[21],
+                        pointA: { x: 5, y: 0 },
+                        bodyB: terrain,
+                        pointB: { x: 0, y: -50 },
+                        length: 50,
+                        //  stiffness: 0.5
+                    });
+                    Matter.Composite.add(engine.world, [constraint, terrain]);
+                });
+        } else {
+            Common.warn('Fetch is not available. Could not load SVG.');
+        }
+
+    </script>
+</body>
+
+</html>

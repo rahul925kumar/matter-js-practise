@@ -1,0 +1,229 @@
+
+<!-- saved from url=(0039)file:///var/www/html/practise/test.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <title>Chain Bouncing</title>
+    <style>
+        .locket_image {
+            position: absolute;
+            top: 536.796px;
+            left: 94.462px;
+            z-index: 83;
+            transform: translate(-50%, -50%) rotate(0.00034085rad) translate(50%, 50%);
+        }
+    </style>
+<script src="./Chain Bouncing_files/jquery.js"></script><script src="./Chain Bouncing_files/matter.min.js"></script><script src="./Chain Bouncing_files/decomp.js"></script><script src="./Chain Bouncing_files/pathseg.js"></script><script src="./Chain Bouncing_files/decomp.min.js"></script></head>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.12.0/matter.js"></script> -->
+
+
+
+
+
+<body>
+    <div id="mjs-wrapper">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 8px; left: 8px; z-index: 2; transform: translate(-50%, -50%) rotate(0rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 18.7688px; left: 30.1812px; z-index: 3; transform: translate(-50%, -50%) rotate(1.38421rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 41.186px; left: 34.4209px; z-index: 4; transform: translate(-50%, -50%) rotate(1.38313rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 63.5984px; left: 38.6856px; z-index: 5; transform: translate(-50%, -50%) rotate(1.38178rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 86.0054px; left: 42.981px; z-index: 6; transform: translate(-50%, -50%) rotate(1.38032rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 108.4px; left: 47.308px; z-index: 7; transform: translate(-50%, -50%) rotate(1.37881rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 130.763px; left: 51.6639px; z-index: 8; transform: translate(-50%, -50%) rotate(1.37728rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 153.076px; left: 56.0448px; z-index: 9; transform: translate(-50%, -50%) rotate(1.37583rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 175.334px; left: 60.4475px; z-index: 10; transform: translate(-50%, -50%) rotate(1.37451rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 197.532px; left: 64.8684px; z-index: 11; transform: translate(-50%, -50%) rotate(1.37331rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 219.668px; left: 69.3053px; z-index: 12; transform: translate(-50%, -50%) rotate(1.3721rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 241.741px; left: 73.7591px; z-index: 13; transform: translate(-50%, -50%) rotate(1.37064rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 263.748px; left: 78.2352px; z-index: 14; transform: translate(-50%, -50%) rotate(1.36876rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 285.7px; left: 82.7434px; z-index: 15; transform: translate(-50%, -50%) rotate(1.36657rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 307.476px; left: 87.262px; z-index: 16; transform: translate(-50%, -50%) rotate(1.36457rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 329.09px; left: 91.784px; z-index: 17; transform: translate(-50%, -50%) rotate(1.36354rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 351.084px; left: 96.4089px; z-index: 18; transform: translate(-50%, -50%) rotate(1.36368rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 373.247px; left: 101.091px; z-index: 19; transform: translate(-50%, -50%) rotate(1.36283rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 394.033px; left: 105.44px; z-index: 20; transform: translate(-50%, -50%) rotate(-105.453rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 415.904px; left: 109.971px; z-index: 21; transform: translate(-50%, -50%) rotate(1.36491rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 438.277px; left: 114.874px; z-index: 22; transform: translate(-50%, -50%) rotate(1.33764rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 451.338px; left: 118.639px; z-index: 23; transform: translate(-50%, -50%) rotate(-419.943rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 462.373px; left: 119.558px; z-index: 24; transform: translate(-50%, -50%) rotate(36.5787rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 444.746px; left: 127.81px; z-index: 25; transform: translate(-50%, -50%) rotate(-1.19355rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 426.214px; left: 135.12px; z-index: 26; transform: translate(-50%, -50%) rotate(30.2407rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 407.895px; left: 142.743px; z-index: 27; transform: translate(-50%, -50%) rotate(-7.46145rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 389.508px; left: 150.34px; z-index: 28; transform: translate(-50%, -50%) rotate(-64.0075rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 371.154px; left: 157.966px; z-index: 29; transform: translate(-50%, -50%) rotate(-13.751rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 352.681px; left: 165.463px; z-index: 30; transform: translate(-50%, -50%) rotate(-7.47543rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 334.112px; left: 172.838px; z-index: 31; transform: translate(-50%, -50%) rotate(-7.48029rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 315.45px; left: 180.144px; z-index: 32; transform: translate(-50%, -50%) rotate(-1.20146rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 296.647px; left: 187.408px; z-index: 33; transform: translate(-50%, -50%) rotate(-152.003rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 277.849px; left: 194.569px; z-index: 34; transform: translate(-50%, -50%) rotate(168.435rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 259.092px; left: 201.608px; z-index: 35; transform: translate(-50%, -50%) rotate(-20.0658rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 240.003px; left: 208.663px; z-index: 36; transform: translate(-50%, -50%) rotate(5.06178rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 220.714px; left: 215.692px; z-index: 37; transform: translate(-50%, -50%) rotate(17.624rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 202.294px; left: 222.317px; z-index: 38; transform: translate(-50%, -50%) rotate(30.1885rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 182.964px; left: 229.15px; z-index: 39; transform: translate(-50%, -50%) rotate(-7.51225rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 163.286px; left: 236.058px; z-index: 40; transform: translate(-50%, -50%) rotate(67.862rad) translate(50%, 50%);">
+        <img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 147.117px; left: 241.376px; z-index: 41; transform: translate(-50%, -50%) rotate(-214.877rad) translate(50%, 50%);"><img src="./Chain Bouncing_files/chain_link.png" class="chain_link" style="position: absolute; top: 120px; left: 250px; z-index: 42; transform: translate(-50%, -50%) rotate(0rad) translate(50%, 50%);">
+
+        <!-- <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link">
+        <img src="./chain_link.png" class="chain_link"><img src="./chain_link.png" class="chain_link"> -->
+        <img src="./Chain Bouncing_files/LC2130-Y (6) (3).png" class="locket_image" style="position: absolute; top: 472.989px; left: 44.2943px; z-index: 83; transform: translate(-50%, -50%) rotate(-0.000103266rad) translate(50%, 50%);">
+    </div>
+    <script>
+        var Engine = Matter.Engine,
+            Render = Matter.Render,
+            World = Matter.World,
+            Bodies = Matter.Bodies;
+        var engine = Engine.create();
+        var render = Render.create({
+            element: document.body,
+            engine: engine,
+            options: {
+                width: 800,
+                height: 800,
+                wireframes: false,
+                // background: `transparent`,
+            }
+        });
+
+        const listEls = document.querySelectorAll(".chain_link");
+        const stack = Matter.Composites.stack(
+            0, 0, listEls.length, 1, 0, 0,
+            (xx, yy, i) => {
+                const { x, y, width, height } = listEls[i].getBoundingClientRect();
+                if (i + 1 === listEls.length) {
+                    return Matter.Bodies.rectangle(250, 120, 20, 10, {
+                        isStatic: true
+                    });
+                } else {
+                    return Matter.Bodies.rectangle(x, y, 20, 10, {
+                        isStatic: i === 0
+                    });
+                }
+            }
+        );
+        var group = Matter.Body.nextGroup(true);
+        Matter.Composites.chain(stack, 0.3, 0, -0.3, 0, {
+            collisionFilter: { group: -1, category: 2 },
+            length: 5,
+            render: {
+                visible: false,
+                background: 'red'
+            }
+        });
+        var locket = Matter.Bodies.rectangle(250, 250, 150, 150, {
+            spec: 'locket',
+            // isStatic: true,
+            collisionFilter: { category: 2, group: -1, mask: 0 }
+        });
+        var constraint = Matter.Constraint.create({
+            bodyA: stack.bodies[21],
+            pointA: { x: 0, y: 0 },
+            bodyB: locket,
+            pointB: { x: 0, y: -75 },
+            length: 5,
+        });
+
+        var stack2 = Matter.Composites.stack(200, 230 - 25.25 - 5 * 40, 2, 2, 0, 0, function (x, y) {
+            return Matter.Bodies.rectangle(400, 400, 10, 10, {
+                spec: 'charms',
+                render: {
+                    sprite: {
+                        texture: `https://cdn.loquetlondon.com/media/catalog/product/cache/60eb685ba7fa125cc536e55016cf562a/e/v/evil_eye_2.png`,
+                        xScale: 0.3,
+                        yScale: 0.3
+
+                    }
+                }
+            });
+        });
+        var mouse = Matter.Mouse.create(render.canvas),
+            mouseConstraint = Matter.MouseConstraint.create(engine, {
+                mouse: mouse,
+                constraint: {
+                    stiffness: 0.2,
+                    render: {
+                        visible: false
+                    }
+                }
+            });
+
+        var boxA = Bodies.rectangle(400, 200, 80, 80);
+        var ballA = Bodies.circle(380, 100, 40, 10);
+        var ballB = Bodies.circle(460, 10, 40, 10);
+        var ground = Bodies.rectangle(400, 800, 810, 60, { isStatic: true });
+        World.add(engine.world, [mouse, mouseConstraint, locket, constraint, stack, ground]);
+        Engine.run(engine);
+        Render.run(render);
+        listEls.forEach(e => {
+            e.style.position = "absolute";
+            e.addEventListener("click", e =>
+                console.log(e.target.textContent)
+            );
+        });
+
+        /*  let charmsbodies = engine.world.composites[0].bodies;
+         charmsbodies.forEach((charm, i) => {
+             const { x, y } = charm.vertices[0];
+             const charmStyle = `<div class="charms" color="red" style="position: absolute; top: ${y}px; left: ${x}px; transform: translate(-50%, -50%) rotate(${charm.angle}rad) translate(50%, 50%) scale(${charm.render.sprite.xScale}, ${charm.render.sprite.yScale});  ">
+                 <img src="${charm.render.sprite.texture}" height="40px" width="40px">
+                 </div>`;
+             $("#mjs-wrapper").append(charmStyle);
+         });
+         let getCharmsDiv = $(".charms"); */
+        (function update() {
+            requestAnimationFrame(update);
+            stack.bodies.forEach((block, i) => {
+                const li = listEls[i];
+                const { x, y } = block.vertices[0];
+                li.style.top = `${y}px`;
+                li.style.left = `${x}px`;
+                li.style.zIndex = block.id;
+                li.style.transform = `translate(-50%, -50%) 
+                          rotate(${block.angle}rad) 
+                          translate(50%, 50%)`;
+                // li.style.backgroundImage = "url('https://cdn.loquetlondon.com/media/catalog/product/cache/60eb685ba7fa125cc536e55016cf562a/9/k/9kt_gold_short_chain_1_sprite.png')";
+            });
+            let locketJoint = engine.world.bodies;
+            // console.log(engine.world)
+            if (locketJoint[0].spec == "locket") {
+                const lo = $(".locket_image")[0];
+                const { x, y } = locketJoint[0].vertices[0];
+                lo.style.position = 'absolute';
+                lo.style.top = `${y}px`;
+                lo.style.left = `${x}px`;
+                lo.style.zIndex = locketJoint[0].id;
+                lo.style.transform = `translate(-50%, -50%) rotate(${locketJoint[0].angle}rad)  translate(50%, 50%)`;
+            }
+            /* let charmsbodies = engine.world.composites[0].bodies;
+            charmsbodies.forEach((charm, i) => {
+                const li = getCharmsDiv[i];
+                const { x, y } = charm.vertices[0];
+                li.style.top = `${y}px`;
+                li.style.left = `${x}px`;
+                li.style.zIndex = charm.id;
+                li.style.transform = `translate(-50%, -50%) 
+                             
+                            translate(50%, 50%)`;
+            }); */
+        })();
+
+        if (typeof fetch !== 'undefined') {
+            var select = function (root, selector) {
+                return Array.prototype.slice.call(root.querySelectorAll(selector));
+            };
+            var loadSvg = function (url) {
+                return fetch(url)
+                    .then(function (response) { return response.text(); })
+                    .then(function (raw) { return (new window.DOMParser()).parseFromString(raw, 'image/svg+xml'); });
+            };
+            loadSvg('https://cdn.shopify.com/s/files/1/0510/9488/0442/t/18/assets/New-Project-_12.svg?v=1649332868')
+                .then(function (root) {
+                    var paths = select(root, 'path');
+                    var vertexSets = paths.map(function (path) { return Matter.Svg.pathToVertices(path, 10); });
+                    var terrain = Matter.Bodies.fromVertices(400, 400, vertexSets,
+                        {
+                            // isStatic: true,
+                            collisionFilter: { category: 2, group: -1, mask: 0 },
+                            render: {
+                                fillStyle: 'transparent',
+                                strokeStyle: '#fff',
+                                lineWidth: 1
+                            }
+                        }, true);
+                    var constraint = Matter.Constraint.create({
+                        bodyA: stack.bodies[21],
+                        pointA: { x: 5, y: 0 },
+                        bodyB: terrain,
+                        pointB: { x: 0, y: -40 },
+                        length: 50,
+                    });
+                    // Matter.Composite.add(engine.world, [constraint, terrain]);
+                    World.add(engine.world, [constraint, terrain]);
+                });
+        } else {
+            Common.warn('Fetch is not available. Could not load SVG.');
+        }
+
+    </script><canvas width="800" height="800" style="background:  0% 0% / contain rgb(20, 21, 31);"></canvas>
+
+
+</body></html>
