@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Matter, { World } from "matter-js";
 // import locket from '../resized/New-Project-_4_heart.svg';
-import ImgSvg from '../resized/New-Project-_12_.svg';
+// import ImgSvg from '../resized/New-Project-_12_.svg';
+import ImgSvg from '../resized/pendent.svg';
 import locket from '../resized/circleTest.png';
 import heartSvg from '../resized/heart.svg';
 
@@ -31,8 +32,8 @@ const CircleLocket = () => {
             id: 'test',
             engine: engine,
             options: {
-                width: 400,
-                height: 400,
+                width: 1000,
+                height: 1000,
                 background: locket,
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
@@ -91,8 +92,8 @@ const CircleLocket = () => {
         var box3 = Bodies.rectangle(200, 320, 15, 15)
         var box4 = Bodies.rectangle(200, 320, 15, 15)
         var box5 = Bodies.rectangle(200, 320, 15, 15)
-        World.add(engine.world, [box, box3, box4, box5]);
-        World.add(engine.world, box2);
+        // World.add(engine.world, [box, box3, box4, box5]);
+        // World.add(engine.world, box2);
         const floor = Bodies.rectangle(200, 470, 400, 10, {
             isStatic: true,
             render: {
@@ -121,7 +122,7 @@ const CircleLocket = () => {
                         isStatic: true,
                         render: {
                             fillStyle: 'transparent',
-                            strokeStyle: '#060a19',
+                            // strokeStyle: '#060a19',
                             lineWidth: 1
                         }
                     }, true);

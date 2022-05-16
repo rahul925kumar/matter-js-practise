@@ -6,6 +6,18 @@
   height: 40vmin;
   pointer-events: none;
 }
+.head-btn{
+  float: right;
+}
+.head-btn .Polaris-Button {
+  margin: 2px;
+}
+.form-section {
+  padding-top: 20px;
+}
+.footer-section{
+  padding-top: 20px;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

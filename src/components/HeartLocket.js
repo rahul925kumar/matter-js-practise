@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Matter, { World } from "matter-js";
 // import locket from '../resized/New-Project-_4_heart.svg';
-import ImgSvg from '../resized/svg-heart-2-_3_ (1).svg';
+import ImgSvg from '../resized/rectangular pendent.svg';
 import locket from '../resized/heart_locket.png';
 import heartSvg from '../resized/heart.svg';
 
@@ -30,8 +30,8 @@ const HeartLocket = () => {
             id: 'test',
             engine: engine,
             options: {
-                width: 500,
-                height: 500,
+                width: 1000,
+                height: 1000,
                 background: locket,
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',

@@ -7,310 +7,162 @@
     <script src="https://cdn.jsdelivr.net/npm/pathseg@1.2.1/pathseg.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/poly-decomp@0.3.0/build/decomp.min.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js"></script> -->
-    <style type="text/css">
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html,
-        body {
-            height: 100%;
-        }
-
-        body {
-            min-width: 600px;
-        }
-
-        #mjs-wrapper {
-            /* position this element */
-            margin: 10px;
-            height: 1000px;
-        }
-
-        #mjs-wrapper ul {
-            font-size: 14pt;
-            list-style: none;
-            user-select: none;
-            position: relative;
-        }
-
-        #mjs-wrapper li {
-            background: #fff;
-            border: 1px solid #555;
-            display: inline-block;
-            padding: 1em;
-            cursor: move;
-        }
-
-        #mjs-wrapper li:hover {
-            background: #f2f2f2;
-        }
-
-        img {
-            height: 20px !important;
-            width: 20px !important;
-        }
-
-        .locket_img {
-            height: 120px !important;
-            width: 100px !important;
-        }
-
-        /* .joint_image img {
-            height: 40px !important;
-            width: 40px !important;
-        } */
-    </style>
 </head>
 
 <body>
-    <div id="mjs-wrapper">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-        <img src="./chain link 3.png">
-    </div>
-    <div class='locket_div'>
-        <img class="locket_img" src="./LC2130-Y (3) (2).png">
-    </div>
-    <div class="svgarea"></div>
-    </div>
     <script>
-        const Constraint = Matter.Constraint;
-        const listEls = document.querySelectorAll("#mjs-wrapper img");
-        const engine = Matter.Engine.create();
-        const stack = Matter.Composites.stack(
-            0, 0, listEls.length, 1, 0, 0,
-            (xx, yy, i) => {
-                const { x, y, width, height } = listEls[i].getBoundingClientRect();
-                if (i + 1 === listEls.length) {
-                    return Matter.Bodies.circle(250, 10, 5, {
-                        isStatic: true,
+        var Engine = Matter.Engine,
+            Render = Matter.Render,
+            Runner = Matter.Runner,
+            Composite = Matter.Composite,
+            Composites = Matter.Composites,
+            Common = Matter.Common,
+            MouseConstraint = Matter.MouseConstraint,
+            Mouse = Matter.Mouse,
+            Bodies = Matter.Bodies;
 
-                    });
-                } else {
-                    return Matter.Bodies.circle(x, y, 5, {
-                        isStatic: i === 0
-                    });
-                }
+        // create engine
+        var engine = Engine.create(),
+            world = engine.world;
+
+        // create renderer
+        var render = Render.create({
+            element: document.body,
+            engine: engine,
+            options: {
+                width: 800,
+                height: 600,
+                wireframes: false
             }
-        );
-        var group = Matter.Body.nextGroup(true);
-        Matter.Composites.chain(stack, 0.3, 0, -0.3, 0, {
-            collisionFilter: { group },
-            length: 5,
+        });
+
+        Render.run(render);
+
+        // create runner
+        var runner = Runner.create();
+        Runner.run(runner, engine);
+
+        // define our categories (as bit fields, there are up to 32 available)
+        var defaultCategory = 0x0001,
+            redCategory = 0x0002,
+            greenCategory = 0x0004,
+            blueCategory = 0x0008;
+
+        var colorA = '#f55a3c',
+            colorB = '#063e7b',
+            colorC = '#f5d259';
+
+        // add floor
+        Composite.add(world, Bodies.rectangle(400, 600, 900, 50, {
+            isStatic: true,
             render: {
-                visible: false,
-                background: 'red'
+                fillStyle: 'transparent',
+                lineWidth: 1
             }
-        });
-        /* Matter.Composite.add(stack, Constraint.create({
-            bodyB: stack.bodies[14],
-            pointB: { x: 0, y: 0 },
-            pointA: { x: 0, y: 0 },
-            stiffness: 0.45,
-            length: 0,
-            isStatic: true,
-            render: { visible: false },
-        })); */
-        const mouseConstraint = Matter.MouseConstraint.create(
-            engine, { element: document.querySelector("#mjs-wrapper") }
-        );
-        /* var chainJoint = Matter.Bodies.rectangle(50, 30, 10, 15, {
-            // collisionFilter: { group },
-            // static: true,
-            spec: 'joint',
-        });
-        var jointConstraint = Matter.Constraint.create({
-            bodyA: stack.bodies[17],
-            // pointA: { x: 0, y: 0 },
-            bodyB: chainJoint,
-            // pointB: { x: 0, y: 0 },
-            // length: 5,
-            render: { visible: false },
-            stiffness: 0.5
-        }); */
-        var locket = Matter.Bodies.rectangle(180, 270, 100, 100, {
-            spec: 'locket',
-            isStatic: true,
-            collisionFilter: { group: -1 }
-        });
-        var locket2 = Matter.Bodies.rectangle(180, 270, 100, 100, {
-            isStatic: true,
-            collisionFilter: { group: -1 }
-        });
+        }));
 
-        var constraint1 = Constraint.create({
-            bodyA: stack.bodies[17],
-            pointA: { x: 0, y: 5 },
-            bodyB: locket,
-            pointB: { x: 0, y: -75 },
-            length: 50,
-            render: { visible: true, },
-            // static: true,
-            stiffness: 0.2
-        });
-        if (typeof fetch !== 'undefined') {
-            var select = function (root, selector) {
-                return Array.prototype.slice.call(root.querySelectorAll(selector));
-            };
-            var loadSvg = function (url) {
-                return fetch(url)
-                    .then(function (response) { return response.text(); })
-                    .then(function (raw) { return (new window.DOMParser()).parseFromString(raw, 'image/svg+xml'); });
-            };
-            loadSvg('https://cdn.shopify.com/s/files/1/0510/9488/0442/t/18/assets/New-Project-_12.svg?v=1649332868')
-                .then(function (root) {
-                    var paths = select(root, 'path');
-                    var vertexSets = paths.map(function (path) { return Matter.Svg.pathToVertices(path, 10); });
-                    console.log("vertexSets points", vertexSets)
-                    var terrain = Matter.Bodies.fromVertices(200, 310, vertexSets,
-                        {
-                            spec: 'drop-area',
-                            isStatic: true,
-                            render: {
-                                fillStyle: 'transparent',
-                                strokeStyle: '#060a19',
-                                lineWidth: 1
-                            }
-                        }, true);
-                    Matter.Composite.add(engine.world, [terrain]);
+        // create a stack with varying body categories (but these bodies can all collide with each other)
+        Composite.add(world,
+            Composites.stack(275, 100, 5, 9, 10, 10, function (x, y, column, row) {
+                var category = redCategory,
+                    color = colorA;
+
+                if (row > 5) {
+                    category = blueCategory;
+                    color = colorB;
+                } else if (row > 2) {
+                    category = greenCategory;
+                    color = colorC;
+                }
+
+                return Bodies.circle(x, y, 20, {
+                    collisionFilter: {
+                        category: category
+                    },
+                    render: {
+                        strokeStyle: color,
+                        fillStyle: 'transparent',
+                        lineWidth: 1
+                    }
                 });
-        } else {
-            Common.warn('Fetch is not available. Could not load SVG.');
-        }
+            })
+        );
 
-        var stack2 = Matter.Composites.stack(200, 606 - 25.25 - 5 * 40, 4, 4, 0, 0, function (x, y) {
-            return Matter.Bodies.rectangle(x, y, 40, 40, {
-                // isStatic: true   
-                render:{
-                    sprite:{
-                        texture: `https://cdn.loquetlondon.com/media/catalog/product/cache/60eb685ba7fa125cc536e55016cf562a/e/v/evil_eye_2.png`,
-                        xScale: 0.3,
-                        yScale: 0.3
+        // this body will only collide with the walls and the green bodies
+        Composite.add(world,
+            Bodies.circle(310, 40, 30, {
+                collisionFilter: {
+                    mask: defaultCategory | greenCategory
+                },
+                render: {
+                    fillStyle: colorC
+                }
+            })
+        );
 
+        // this body will only collide with the walls and the red bodies
+        Composite.add(world,
+            Bodies.circle(400, 40, 30, {
+                collisionFilter: {
+                    mask: defaultCategory | redCategory
+                },
+                render: {
+                    fillStyle: colorA
+                }
+            })
+        );
+
+        // this body will only collide with the walls and the blue bodies
+        Composite.add(world,
+            Bodies.circle(480, 40, 30, {
+                collisionFilter: {
+                    mask: defaultCategory | blueCategory
+                },
+                render: {
+                    fillStyle: colorB
+                }
+            })
+        );
+
+        // add mouse control
+        var mouse = Mouse.create(render.canvas),
+            mouseConstraint = MouseConstraint.create(engine, {
+                mouse: mouse,
+                constraint: {
+                    stiffness: 0.2,
+                    render: {
+                        visible: false
                     }
                 }
             });
+
+        Composite.add(world, mouseConstraint);
+
+        // keep the mouse in sync with rendering
+        render.mouse = mouse;
+
+        // red category objects should not be draggable with the mouse
+        mouseConstraint.collisionFilter.mask = defaultCategory | blueCategory | greenCategory;
+
+        // fit the render viewport to the scene
+        Render.lookAt(render, {
+            min: { x: 0, y: 0 },
+            max: { x: 800, y: 600 }
         });
-        var ground = Matter.Bodies.rectangle(800, 800, 810, 60, { isStatic: true });
-        Matter.Composite.add(engine.world, [stack, mouseConstraint, locket, stack2, ground]);
-        // console.log("Block Count", engine.world.bodies) chainJoint, jointConstraint, locket, constraint1
-        let charmsbodies = engine.world.composites[1].bodies;
-        charmsbodies.forEach((charm, i) => {
-            const { x, y } = charm.vertices[0];
-            const charmStyle = `<div class="charms" style="position: absolute; top: ${y}px; left: ${x}px; transform: translate(-50%, -50%) rotate(${charm.angle}rad) translate(50%, 50%) scale(${charm.render.sprite.xScale}, ${charm.render.sprite.yScale}); background-image: url('${charm.render.sprite.texture}'); background-repeat: no-repeat; height: 120px; width: 120px; "></div>`;
-            $("#mjs-wrapper").append(charmStyle);
-        });
-        let groundSurface = engine.world.bodies[1];
-        console.log(groundSurface)
-        const { x, y } = groundSurface.vertices[0];
-        const groundlayer = `<div class="ground" style="position: absolute; top: ${y}px;  transform: translate(-50%, -50%) rotate(${groundSurface.angle}rad) translate(50%, 50%); background-color: black; height: 100%; width: 100%;"></div>`;
-        $("#mjs-wrapper").append(groundlayer);
 
-        listEls.forEach(e => {
-            e.style.position = "absolute";
-            e.addEventListener("click", e =>
-                console.log(e.target.textContent)
-            );
-        });
-        let getCharmsDiv = $(".charms");
-        (function update() {
-            requestAnimationFrame(update);
-            stack.bodies.forEach((block, i) => {
-                const li = listEls[i];
-                const { x, y } = block.vertices[0];
-                li.style.top = `${y}px`;
-                li.style.left = `${x}px`;
-                // li.style.zIndex = block.id;
-                li.style.transform = `translate(-50%, -50%) 
-                          rotate(${block.angle}rad) 
-                          translate(50%, 50%)`;
-                // li.style.backgroundImage = "url('https://cdn.loquetlondon.com/media/catalog/product/cache/60eb685ba7fa125cc536e55016cf562a/9/k/9kt_gold_short_chain_1_sprite.png')";
-            });
-
-            let locketJoint = engine.world.bodies;
-            // console.log("====", locketJoint[1].spec)
-            if (locketJoint[0].spec == "locket") {
-                const lo = $(".locket_div img")[0];
-                const { x, y } = locketJoint[0].vertices[0];
-                lo.style.position = 'absolute';
-                lo.style.top = `${y}px`;
-                lo.style.left = `${x}px`;
-                lo.style.zIndex = locketJoint[0].id;
-                lo.style.transform = `translate(-50%, -50%) rotate(${locketJoint[0].angle}rad) translate(50%, 50%)`;
-                // lo.style.backgroundImage = "url('https://cdn.loquetlondon.com/media/catalog/product/cache/60eb685ba7fa125cc536e55016cf562a/9/k/9kt_yellow_gold_large_round_locket_sprite_enlarged.png')";
-                // lo.style.backgroundRepeat = "no-repeat";
-            }
-
-            let charmsbodies = engine.world.composites[1].bodies;
-            /*   charmsbodies.forEach((charm, i) => {
-                  const li = getCharmsDiv[i];
-                  const { x, y } = charm.vertices[0];
-                  // console.log("charm", getCharmsDiv)
-                  li.style.top = `${y}px`;
-                  li.style.left = `${x}px`;
-                  li.style.zIndex = charm.id;
-                  li.style.transform = `translate(-50%, -50%) 
-                            rotate(${charm.angle}rad) 
-                            translate(50%, 50%)`;
-  
-              }); */
-            Matter.Engine.update(engine);
-        })();
-
-        console.log("-------", engine.world.bodies[2])
-        setTimeout(() => {
-            let dropArea = engine.world.bodies;
-            if (dropArea[1].spec == "drop-area") {
-                const sv = $(".svgarea")[0];
-                const { x, y } = dropArea[1].veapprtices[0];
-                sv.style.position = 'absolute';
-                sv.style.top = `${y}px`;
-                sv.style.left = `${x}px`;
-                sv.style.zIndex = dropArea[1].id;
-                sv.style.transform = `translate(-50%, -50%) rotate(${dropArea[1].angle}rad) translate(50%, 50%)`;
-                // lo.style.backgroundImage = "url('https://cdn.loquetlondon.com/media/catalog/product/cache/60eb685ba7fa125cc536e55016cf562a/9/k/9kt_yellow_gold_large_round_locket_sprite_enlarged.png')";
-                // lo.style.backgroundRepeat = "no-repeat";
-                // lo.style.width = `250px`;
-                // lo.style.height = `250px`;
-            }
-        }, 5000);
-
-
-
-        // $("#mjs-wrapper").append("<div>HEllo</div>");
+        // context for MatterTools.Demo
+        // return {
+        //     engine: engine,
+        //     runner: runner,
+        //     render: render,
+        //     canvas: render.canvas,
+        //     stop: function () {
+        //         Matter.Render.stop(render);
+        //         Matter.Runner.stop(runner);
+        //     }
+        // };
     </script>
+
 </body>
 
 </html>

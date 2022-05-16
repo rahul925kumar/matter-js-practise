@@ -12,7 +12,7 @@
 
 <body>
     <div class="loquet">
-        <div id="mjs-wrapper">
+        <div id="mjs-wrapper" style="display:none">
             <img src="https://cdn.shopify.com/s/files/1/0510/9488/0442/t/18/assets/chain_link.png?v=1651465529"
                 class="chain_link"><img
                 src="https://cdn.shopify.com/s/files/1/0510/9488/0442/t/18/assets/chain_link.png?v=1651465529"
@@ -67,8 +67,9 @@
                 class="chain_link">
             <img src="https://cdn.shopify.com/s/files/1/0510/9488/0442/t/18/assets/chain_link.png?v=1651465529"
                 class="chain_link">
-            <img src="./circleLocket_test1.png" class="locket_image">
+           
         </div>
+        <img src="./LC2130-Y (8) (1).png" class="locket_image">
     </div>
     <script>
         var Engine = Matter.Engine,
@@ -93,7 +94,7 @@
             (xx, yy, i) => {
                 const { x, y, width, height } = listEls[i].getBoundingClientRect();
                 if (i + 1 === listEls.length) {
-                    return Matter.Bodies.rectangle(250, 120, 20, 10, {
+                    return Matter.Bodies.rectangle(200, 10, 20, 10, {
                         isStatic: true,
                         collisionFilter: { category: 2, group: -1, mask: 0 },
                     });
@@ -222,7 +223,7 @@
                     .then(function (response) { return response.text(); })
                     .then(function (raw) { return (new window.DOMParser()).parseFromString(raw, 'image/svg+xml'); });
             };
-            loadSvg('https://cdn.shopify.com/s/files/1/0510/9488/0442/t/18/assets/New-Project-_12.svg?v=1649332868')
+            loadSvg('./pendant.svg')
                 .then(function (root) {
                     var paths = select(root, 'path');
                     var vertexSets = paths.map(function (path) { return Matter.Svg.pathToVertices(path, 10); });
