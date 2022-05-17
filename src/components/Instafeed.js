@@ -22,9 +22,9 @@ const Instafeed = () => {
         ],
         row: '0',
         col: '0',
-        selectedSpacing : '',
-        selectedClick : '',
-        selectedlayout : '',
+        selectedSpacing: '',
+        selectedClick: '',
+        selectedlayout: '',
     });
     const handleAction = (value, fieldName) => {
         console.log("dfhlkdjf", value)
@@ -81,13 +81,7 @@ const Instafeed = () => {
                                             maxLength={30}
                                             autoComplete="off"
                                         />
-                                        <TextField
-                                            type="number"
-                                            label="COLUMNS"
-                                            value={data.col}
-                                            onChange={(value) => handleAction(value, 'col')}
-                                            autoComplete="off"
-                                            maxLength={8}
+                                        <TextField type="number" label="COLUMNS" value={data.col} onChange={(value) => handleAction(value, 'col')} autoComplete="off" maxLength={8}
                                         />
                                     </FormLayout.Group>
                                 </FormLayout>
