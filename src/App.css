@@ -15,8 +15,26 @@
 .form-section {
   padding-top: 20px;
 }
-.footer-section{
+.footer-section {
   padding-top: 20px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+.form-info {
+  padding: 10px;
+}
+.form-btn {
+  padding: 10px;
+}
+.form-alert {
+  padding: 10px;
+}
+h2#slider-title {
+  padding: 10px;
+  text-align: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {
