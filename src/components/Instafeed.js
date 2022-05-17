@@ -116,5 +116,5 @@ const Instafeed = () => {
             </div>
         </Page>
     )
-}
+}fgsdfgsdfsdfgsdf
 export default Instafeed;
