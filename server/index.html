@@ -1,166 +1,162 @@
 <html>
 
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.12.0/matter.js"></script>
-    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/253981/decomp.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/pathseg@1.2.1/pathseg.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/poly-decomp@0.3.0/build/decomp.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/matter-js@0.16.1/build/matter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+
 </head>
 
 <body>
     <script>
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
         var Engine = Matter.Engine,
             Render = Matter.Render,
             Runner = Matter.Runner,
-            Composite = Matter.Composite,
             Composites = Matter.Composites,
-            Common = Matter.Common,
+            Events = Matter.Events,
+            Constraint = Matter.Constraint,
             MouseConstraint = Matter.MouseConstraint,
             Mouse = Matter.Mouse,
+            World = Matter.World,
             Bodies = Matter.Bodies;
 
-        // create engine
-        var engine = Engine.create(),
-            world = engine.world;
+        const cat = {
+            static: 0x0001,
+            nodrag: 0x0002,
+            drag: 0x0004
+        };
 
-        // create renderer
+        // Create world
+        var engine = Engine.create();
+        var world = engine.world;
+
+        // Create render
         var render = Render.create({
             element: document.body,
             engine: engine,
             options: {
-                width: 800,
-                height: 600,
-                wireframes: false
+                width: vw,
+                height: vh,
+                wireframes: false,
+                showAngleIndicator: false
             }
         });
-
+        // render.on()
         Render.run(render);
 
-        // create runner
+        // Create runner
         var runner = Runner.create();
         Runner.run(runner, engine);
 
-        // define our categories (as bit fields, there are up to 32 available)
-        var defaultCategory = 0x0001,
-            redCategory = 0x0002,
-            greenCategory = 0x0004,
-            blueCategory = 0x0008;
+        // Body consts
+        const rock_x = vw * .20;
+        const rock_y = vh * .66;
+        const rockOptions = {
+            density: 0.01,
+            collisionFilter: {
+                category: cat.drag
+            }
+        };
+        const gift = {
+            render: {
+                sprite: {}
+            },
+            collisionFilter: {
+                category: cat.nodrag
+            }
+        };
 
-        var colorA = '#f55a3c',
-            colorB = '#063e7b',
-            colorC = '#f5d259';
-
-        // add floor
-        Composite.add(world, Bodies.rectangle(400, 600, 900, 50, {
-            isStatic: true,
+        const gift2 = {
+            spec: 'svg',
+            //isStatic : true,
             render: {
                 fillStyle: 'transparent',
+                lineWidth: 2,
+            },
+            collisionFilter: {
+                category: cat.nodrag,
+            },
+        };
+
+        // Add Static bodies
+        var ground = Bodies.rectangle(vw * .5, vh * .9, vw * .9, 42, {
+            isStatic: true,
+            render: {
+                fillStyle: '#060a19'
+            }
+        });
+        var rock = Bodies.polygon(rock_x, rock_y, 8, 15, rockOptions);
+        var anchor = {
+            x: rock_x,
+            y: rock_y
+        };
+        var elastic = Constraint.create({
+            pointA: anchor,
+            bodyB: rock,
+            stiffness: 0.09,
+            render: {
                 lineWidth: 1
             }
-        }));
+        });
+        var wall = Composites.stack(vw * .66, 0, 2, (vh * .4) / 15, 1, 0, (x, y) => Bodies.rectangle(x, y, 15, 15, gift));
+        var platform = Bodies.rectangle(vw * .75, vh * .6, 210, 21, {
+            isStatic: true,
+            render: {
+                fillStyle: '#060a19'
+            },
+            collisionFilter: {
+                category: cat.static
+            }
+        });
+        var pyramid = Composites.pyramid(vw * .30, 0, 11, 11, 0, 0, (x, y) => Bodies.rectangle(x, y, 15, 15, gift));
 
-        // create a stack with varying body categories (but these bodies can all collide with each other)
-        Composite.add(world,
-            Composites.stack(275, 100, 5, 9, 10, 10, function (x, y, column, row) {
-                var category = redCategory,
-                    color = colorA;
+        World.add(engine.world, [ground, pyramid, platform, wall, rock, elastic]);
 
-                if (row > 5) {
-                    category = blueCategory;
-                    color = colorB;
-                } else if (row > 2) {
-                    category = greenCategory;
-                    color = colorC;
-                }
+        // Rock drag
+        const dragborder_x = rock_x + 20;
+        const dragborder_y = rock_y - 20;
+        Events.on(engine, 'afterUpdate', function () {
 
-                return Bodies.circle(x, y, 20, {
-                    collisionFilter: {
-                        category: category
-                    },
-                    render: {
-                        strokeStyle: color,
-                        fillStyle: 'transparent',
-                        lineWidth: 1
-                    }
-                });
-            })
-        );
+            // If Rock is outside drag-range
+            if (mouseConstraint.mouse.button === -1 && (rock.position.x > dragborder_x || rock.position.y < dragborder_y)) {
 
-        // this body will only collide with the walls and the green bodies
-        Composite.add(world,
-            Bodies.circle(310, 40, 30, {
-                collisionFilter: {
-                    mask: defaultCategory | greenCategory
-                },
-                render: {
-                    fillStyle: colorC
-                }
-            })
-        );
+                // Failed attempt
+                // rock.collisionFilter = { category: cat.nodrag };
 
-        // this body will only collide with the walls and the red bodies
-        Composite.add(world,
-            Bodies.circle(400, 40, 30, {
-                collisionFilter: {
-                    mask: defaultCategory | redCategory
-                },
-                render: {
-                    fillStyle: colorA
-                }
-            })
-        );
-
-        // this body will only collide with the walls and the blue bodies
-        Composite.add(world,
-            Bodies.circle(480, 40, 30, {
-                collisionFilter: {
-                    mask: defaultCategory | blueCategory
-                },
-                render: {
-                    fillStyle: colorB
-                }
-            })
-        );
-
-        // add mouse control
-        var mouse = Mouse.create(render.canvas),
-            mouseConstraint = MouseConstraint.create(engine, {
-                mouse: mouse,
-                constraint: {
-                    stiffness: 0.2,
-                    render: {
-                        visible: false
-                    }
-                }
-            });
-
-        Composite.add(world, mouseConstraint);
-
-        // keep the mouse in sync with rendering
-        render.mouse = mouse;
-
-        // red category objects should not be draggable with the mouse
-        mouseConstraint.collisionFilter.mask = defaultCategory | blueCategory | greenCategory;
-
-        // fit the render viewport to the scene
-        Render.lookAt(render, {
-            min: { x: 0, y: 0 },
-            max: { x: 800, y: 600 }
+                // Add new Rock
+                rock = Bodies.polygon(rock_x, rock_y, 7, 15, rockOptions);
+                World.add(engine.world, rock);
+                // Re-bind elastic
+                elastic.bodyB = rock;
+            }
         });
 
-        // context for MatterTools.Demo
-        // return {
-        //     engine: engine,
-        //     runner: runner,
-        //     render: render,
-        //     canvas: render.canvas,
-        //     stop: function () {
-        //         Matter.Render.stop(render);
-        //         Matter.Runner.stop(runner);
-        //     }
-        // };
+        // Mouse control
+        var mouse = Mouse.create(render.canvas);
+        var mouseConstraint = MouseConstraint.create(engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                render: {
+                    visible: false
+                }
+            }
+        });
+
+        // Add mouse
+        World.add(world, mouseConstraint);
+        render.mouse = mouse;
+
+        // Prevent mouse-drag
+        mouseConstraint.collisionFilter.mask = cat.static | cat.drag;
+
+        // Run
+        Engine.run(engine);
+        Render.run(render);
+
     </script>
 
 </body>
